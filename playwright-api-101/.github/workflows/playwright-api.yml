@@ -1,0 +1,66 @@
+name: Playwright API Automation CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Checkout repository
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # 2. Setup Node.js
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+
+    # 3. Install dependencies
+    - name: Install dependencies
+      run: npm install
+
+    # 4. Run Playwright API tests
+    - name: Run Playwright API tests
+      run: npm test
+
+    # # 5. Install Docker Compose
+    # - name: Install Docker Compose
+    #   run: |
+    #     sudo apt-get update
+    #     sudo apt-get install -y docker-compose
+    #     docker-compose --version
+
+    # # 6. Login to Docker Hub
+    # - name: Login to Docker Hub
+    #   run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+    # # 7. Start Allure Docker Service
+    # - name: Start Allure Docker Service
+    #   run: docker-compose up -d allure
+
+    # # 8. Copy Allure Results to Docker
+    # - name: Copy Allure Results to Docker
+    #   run: docker cp allure-results allure-docker-service:/app/allure-results
+
+    # # 9. Generate Allure Report via API
+    # - name: Generate Allure Report via API
+    #   run: |
+    #     curl -X GET "http://localhost:5050/generate-report"
+
+    # # 10. Publish Allure Report URL
+    # - name: Publish Allure Report URL
+    #   run: |
+    #     echo "Allure Report URL: http://localhost:5050"
+
+    # # 11. Stop Allure Docker Service (Optional Cleanup)
+    # - name: Stop Allure Docker Service
+    #   run: docker-compose down
